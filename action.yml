@@ -46,7 +46,7 @@ runs:
     #     SANDBOX_NAME: ${{ inputs.sandbox_name }}
     #     OUTPUT_FILE: ${{ inputs.output_file }}
 
-
+    # need to test this out in action form otherwise will use the argument parsed method
     # leverages it via the enviornment
     - name: Run script
       run: python main.py
