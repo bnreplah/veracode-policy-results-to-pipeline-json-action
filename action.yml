@@ -1,0 +1,7 @@
+name: "Veracode Policy Results to Pipeline Results"
+description: "Converts Veracode Policy Results to Pipeline Results"
+runs:
+  using: "composite"
+  steps:
+    - run: python veracode-policy-to-pipeline.py
+      shell: bash
