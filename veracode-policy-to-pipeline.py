@@ -23,6 +23,7 @@ BASE_FINDING_JSON = {
 def main():
     application_guid = None
     selected_application = None
+
     while application_guid is None:
         application_name = input("Enter the application you want to fetch (empty to quit): ").strip()
         if not application_name:
@@ -48,6 +49,7 @@ def main():
             print(f"No application found with name '{application_name}'.")
 
     sandboxes = Sandboxes().get_all(application_guid)
+
     if sandboxes:
         selected_sandbox = None
         option, index = pick.pick(["Yes", "No"], "Do you want to download sandbox data?", indicator='=>', default_index=0)
@@ -62,6 +64,7 @@ def main():
 
     print("Converting findings to pipeline JSON format...")
     results_json = BASE_RESULTS_JSON.copy()
+
     for finding in findings:
         findings_as_result = BASE_FINDING_JSON.copy()
         findings_as_result["title"] = finding["finding_details"]["attack_vector"]
@@ -89,6 +92,7 @@ def main():
 
     print("Finished converting findings to pipeline JSON format.")
     file_name = input("Enter the file name to save the results (default: results.json): ").strip() or "results.json"
+    
     with open(file_name, 'w') as f:
         json.dump(results_json, f)
     print(f"Results saved to {file_name}")

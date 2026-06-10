@@ -1,7 +1,75 @@
 name: "Veracode Policy Results to Pipeline Results"
-description: "Converts Veracode Policy Results to Pipeline Results"
+description: "Fetch Veracode findings and convert to pipeline format"
+
+inputs:
+  vid:
+    description: "Veracode API ID"
+    required: true
+  vkey:
+    description: "Veracode API Key"
+  app_name:
+    description: "Application name"
+    required: true
+  sandbox_name:
+    description: "Sandbox name"
+    required: false
+  output_file:
+    description: "Output JSON file"
+    required: false
+    default: "results.json"
+
+
+# Use this one to use dockerfile
+# runs:
+#   using: "docker"
+#   image: "Dockerfile"
+
+
 runs:
   using: "composite"
+
   steps:
-    - run: python veracode-policy-to-pipeline.py
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
       shell: bash
+
+    # - name: Run script
+    #   run: python main.py
+    #   shell: bash
+    #   env:
+    #     APP_NAME: ${{ inputs.app_name }}
+    #     SANDBOX_NAME: ${{ inputs.sandbox_name }}
+    #     OUTPUT_FILE: ${{ inputs.output_file }}
+
+
+    # leverages it via the enviornment
+    - name: Run script
+      run: python main.py
+      shell: bash
+      env:
+        APP_NAME: ${{ inputs.app_name }}
+        SANDBOX_NAME: ${{ inputs.sandbox_name }}
+        OUTPUT_FILE: ${{ inputs.output_file }}
+        VERACODE_API_KEY_ID: ${{ inputs.vid }}
+        VERACODE_API_KEY_SECRET: ${{ inputs.vkey }}
+
+    # # leverages the inline version instead
+    # - name: Run Script
+    #    env:
+    #      VERACODE_API_KEY_ID: ${{ inputs.vid }}
+    #      VERACODE_API_KEY_SECRET: ${{ inputs.vkey }}
+    #   run: |
+    #     CMD="python veracode-policy-to-pipeline-inline.py --app-name '${{ inputs.app_name }}'"
+
+    #     if [ -n "${{ inputs.sandbox_name }}" ]; then
+    #       CMD="$CMD --sandbox-name '${{ inputs.sandbox_name }}'"
+    #     fi
+
+    #     CMD="$CMD --output-file '${{ inputs.output_file }}'"
+
+    #     eval $CMD

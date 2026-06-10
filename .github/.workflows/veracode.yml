@@ -1,0 +1,25 @@
+name: Run Veracode Export
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run custom Veracode action
+        uses: ./
+        with:
+          app_name: "Verademo"
+          sandbox_name: "test"   # optional
+          output_file: "results.json"
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: veracode-results
+          path: results.json
