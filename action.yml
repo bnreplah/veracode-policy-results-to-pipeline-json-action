@@ -2,11 +2,11 @@ name: "Veracode Policy Results to Pipeline Results"
 description: "Fetch Veracode findings and convert to pipeline format"
 
 inputs:
-  vid:
-    description: "Veracode API ID"
-    required: true
-  vkey:
-    description: "Veracode API Key"
+ # vid:
+ #   description: "Veracode API ID"
+ #   required: true
+ # vkey:
+ #   description: "Veracode API Key"
   app_name:
     description: "Application name"
     required: true
