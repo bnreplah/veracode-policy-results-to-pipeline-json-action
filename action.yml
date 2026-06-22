@@ -55,8 +55,8 @@ runs:
         APP_NAME: ${{ inputs.app_name }}
         SANDBOX_NAME: ${{ inputs.sandbox_name }}
         OUTPUT_FILE: ${{ inputs.output_file }}
-        VERACODE_API_KEY_ID: ${{ inputs.vid }}
-        VERACODE_API_KEY_SECRET: ${{ inputs.vkey }}
+        #VERACODE_API_KEY_ID: ${{ inputs.vid }} # These get passed based on the env
+        #VERACODE_API_KEY_SECRET: ${{ inputs.vkey }}
 
     # # leverages the inline version instead
     # - name: Run Script
