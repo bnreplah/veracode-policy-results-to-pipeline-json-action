@@ -48,28 +48,27 @@ runs:
 
     # need to test this out in action form otherwise will use the argument parsed method
     # leverages it via the enviornment
-    - name: Run script
-      run: python main.py
-      shell: bash
+  #  - name: Run script
+ #     run: python main.py
+ #     shell: bash
+ #     env:
+ #       APP_NAME: ${{ inputs.app_name }}
+ #       SANDBOX_NAME: ${{ inputs.sandbox_name }}
+ #       OUTPUT_FILE: ${{ inputs.output_file }}
+ #       VERACODE_API_KEY_ID: ${{ inputs.vid }}
+ #       VERACODE_API_KEY_SECRET: ${{ inputs.vkey }}
+    # Need to leverage a different method to this one
+    # # leverages the inline version instead
+    
+    - name: Run Script
       env:
-        APP_NAME: ${{ inputs.app_name }}
-        SANDBOX_NAME: ${{ inputs.sandbox_name }}
-        OUTPUT_FILE: ${{ inputs.output_file }}
         VERACODE_API_KEY_ID: ${{ inputs.vid }}
         VERACODE_API_KEY_SECRET: ${{ inputs.vkey }}
-
-    # # leverages the inline version instead
-    # - name: Run Script
-    #    env:
-    #      VERACODE_API_KEY_ID: ${{ inputs.vid }}
-    #      VERACODE_API_KEY_SECRET: ${{ inputs.vkey }}
-    #   run: |
-    #     CMD="python veracode-policy-to-pipeline-inline.py --app-name '${{ inputs.app_name }}'"
-
-    #     if [ -n "${{ inputs.sandbox_name }}" ]; then
-    #       CMD="$CMD --sandbox-name '${{ inputs.sandbox_name }}'"
-    #     fi
-
-    #     CMD="$CMD --output-file '${{ inputs.output_file }}'"
-
-    #     eval $CMD
+      run: |
+       CMD="python veracode-policy-to-pipeline-inline.py --app-name '${{ inputs.app_name }}'"
+       if [ -n "${{ inputs.sandbox_name }}" ]; then
+         CMD="$CMD --sandbox-name '${{ inputs.sandbox_name }}'"
+       fi
+       CMD="$CMD --output-file '${{ inputs.output_file }}'"
+       eval $CMD
+      shell: bash
